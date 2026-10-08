@@ -1,0 +1,20 @@
+# Local tooling and development-only files
+node_modules/
+test-results/
+playwright-report/
+private/
+exports/
+
+# Test evidence: run logs are local; the browser-verification record is tracked.
+tests/evidence/*.txt
+!tests/evidence/browser-verification.md
+
+# Logs and scratch output
+*.log
+qa-artifacts/
+screenshots/
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
