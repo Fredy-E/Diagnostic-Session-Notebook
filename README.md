@@ -1,5 +1,10 @@
 # Diagnostic Session Notebook
 
+<!-- prototype-status:start -->
+> **Experimental concept prototype — idea exploration only.**
+> A work-in-progress demo, not a finished or production-ready product. Existing features and tests demonstrate the concept; they do not establish real-world reliability or complete functionality. Features may change or remain unfinished.
+<!-- prototype-status:end -->
+
 ![Decorative blue project card](assets/banner.png)
 
 Development and CI: [verification instructions](docs/verification.md).
