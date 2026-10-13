@@ -131,11 +131,12 @@ test runner; the browser suite uses the pinned Playwright development
 dependency only:
 
 ```sh
-npm test                            # unit + app-regression suites
+npm test                            # unit + app-regression suites (factual unit entrypoint)
 node tests/core.test.cjs            # core logic + static safety scans
 node tests/app-regression.test.cjs  # app wiring regression (DOM sandbox)
 node --test                         # via the test runner (auto-discovers tests/)
 npm run test:browser                # Playwright browser verification
+npm run verify                      # full default: unit + app-regression + UI shell + browser
 ```
 
 Covered: redaction (labels, VIN-like strings, idempotency, metadata), text and
@@ -195,8 +196,8 @@ style.css         dark blue family styling, responsive, print styles
 tests/core.test.cjs  Node unit tests + static safety scans
 tests/app-regression.test.cjs  app-level regression tests (DOM sandbox, no dependencies)
 tests/browser.cjs Playwright browser verification (development dependency)
-package.json      npm scripts and the pinned Playwright dev dependency
-.github/workflows/verify.yml  CI: npm ci, unit suite, browser suite
+package.json      npm scripts (verify reaches unit + app-regression + UI shell + browser) and the pinned Playwright dev dependency
+.github/workflows/verify.yml  CI: npm ci, Playwright Chromium, npm run verify (full default)
 docs/verification.md  development and CI verification instructions
 assets/banner.png decorative project card
 LICENSE           MIT license text

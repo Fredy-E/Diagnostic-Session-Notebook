@@ -8,24 +8,33 @@
 </head>
 <body>
 <noscript><p class="noscript">This local tool needs JavaScript enabled. Nothing is ever uploaded; everything runs in this page.</p></noscript>
-<main data-testid="app" id="app" data-ready="false">
-  <header>
-    <div>
+<main data-testid="app" id="app" data-ready="false" data-ui-revision="portfolio-preview-1">
+  <header class="masthead">
+    <div class="masthead-text">
       <p class="eyebrow">FREDY-E / LOCAL LOG TOOLS</p>
       <h1>Diagnostic Session Notebook</h1>
       <p class="subtitle">Dated sessions, redacted scan imports, before/after comparison, and a printable pre/post report. Fully offline.</p>
+      <ul class="status-pills" aria-label="Tool guarantees">
+        <li>Offline only</li>
+        <li>Redaction by default</li>
+        <li>No vehicle control</li>
+      </ul>
     </div>
     <span class="icon" aria-hidden="true">DS</span>
   </header>
 
+  <p class="prototype-notice" id="prototype-notice" role="note">Experimental concept prototype — idea exploration only. Not a finished product and not production-ready. Features may change or remain unfinished.</p>
+
   <p class="notice" data-testid="storage-status" id="storage-status" role="status">Starting local storage check…</p>
   <p class="toast" data-testid="toast" id="toast" role="status" aria-live="polite" hidden></p>
 
-  <div class="layout">
+  <div class="workbench layout">
     <section class="panel" aria-labelledby="editor-heading">
-      <h2 id="editor-heading">Session</h2>
+      <h2 id="editor-heading">Session workspace</h2>
+      <p class="hint">Write the session, preview exactly what would be stored, then save. Raw scan text never leaves this page unredacted.</p>
       <p class="hint" data-testid="edit-banner" id="edit-banner" hidden>Editing an existing session. Saving asks for confirmation first.</p>
       <form data-testid="session-form" id="session-form" autocomplete="off" novalidate>
+        <h3 class="step">Step 1 — Session details</h3>
         <div class="field-row">
           <label for="session-date">Date</label>
           <input data-testid="session-date" id="session-date" type="date" required>
@@ -47,6 +56,7 @@
           <textarea data-testid="session-notes" id="session-notes" rows="3" maxlength="4000" placeholder="Observations, context, follow-ups"></textarea>
         </div>
 
+        <h3 class="step">Step 2 — Scan import</h3>
         <fieldset class="import-block">
           <legend>Scan import (text or JSON)</legend>
           <p class="hint" data-testid="import-format-note" id="import-format-note">Paste a scan log or JSON fault list, then preview. Raw input is never stored — only the redacted parse is kept when you save.</p>
@@ -67,6 +77,7 @@
           <div data-testid="preview-faults" id="preview-faults"></div>
         </section>
 
+        <h3 class="step">Step 3 — Save</h3>
         <p class="hint" data-testid="fault-count" id="fault-count">Saving without a scan stores a session with zero fault entries.</p>
         <div class="toolbar">
           <button type="submit" data-testid="save-session" id="save-session" class="primary">Save session</button>
@@ -77,19 +88,26 @@
 
     <section class="panel" aria-labelledby="notebook-heading">
       <h2 id="notebook-heading">Notebook <span class="chip" data-testid="session-count" id="session-count">0 sessions</span></h2>
+      <p class="hint">Search across titles, vehicles, tags, codes, and notes. Entries render as plain text only.</p>
       <div class="filters">
         <label for="search-input">Search</label>
         <input data-testid="search-input" id="search-input" type="search" placeholder="Title, vehicle, tag, code, notes">
         <label for="tag-filter">Tag</label>
         <select data-testid="tag-filter" id="tag-filter"><option value="">All tags</option></select>
       </div>
-      <div data-testid="session-list" id="session-list" class="session-list"></div>
+      <div data-testid="session-list" id="session-list" class="session-list" aria-live="polite"></div>
       <p class="empty" data-testid="empty-state" id="empty-state">No sessions yet. Save one, or load the fictional sample under Local data.</p>
+      <ol class="empty-steps" aria-label="How to start">
+        <li>Fill the date and a short title on the left.</li>
+        <li>Paste a scan, choose <em>Preview redaction</em>, then review the redactions.</li>
+        <li>Save, or press <em>Load fictional sample</em> below to explore two ready-made sessions.</li>
+      </ol>
     </section>
   </div>
 
   <section class="panel" aria-labelledby="compare-heading">
     <h2 id="compare-heading">Before / after comparison</h2>
+    <p class="hint">Compare two stored sessions. Grouping is by module and code; absence from the later log does not prove a repair.</p>
     <div class="compare-controls">
       <label for="before-select">Before</label>
       <select data-testid="before-select" id="before-select"><option value="">Select before session</option></select>
@@ -99,44 +117,47 @@
     </div>
     <p class="hint" data-testid="compare-note" id="compare-note" role="status">Pick two sessions and compare. Absence from a later scan does not prove a repair.</p>
     <div class="diff-grid">
-      <section class="diff" data-testid="diff-new" id="diff-new">
+      <section class="diff" data-testid="diff-new" id="diff-new" aria-label="New in after">
         <h3>New in after <span class="badge" data-testid="diff-new-count" id="diff-new-count">0</span></h3>
         <ul data-testid="diff-new-list" id="diff-new-list"></ul>
       </section>
-      <section class="diff" data-testid="diff-absent" id="diff-absent">
+      <section class="diff" data-testid="diff-absent" id="diff-absent" aria-label="Absent from after">
         <h3>Absent from after <span class="badge" data-testid="diff-absent-count" id="diff-absent-count">0</span></h3>
         <ul data-testid="diff-absent-list" id="diff-absent-list"></ul>
       </section>
-      <section class="diff" data-testid="diff-persisting" id="diff-persisting">
+      <section class="diff" data-testid="diff-persisting" id="diff-persisting" aria-label="Persisting">
         <h3>Persisting <span class="badge" data-testid="diff-persisting-count" id="diff-persisting-count">0</span></h3>
         <ul data-testid="diff-persisting-list" id="diff-persisting-list"></ul>
       </section>
     </div>
   </section>
 
-  <section class="panel" aria-labelledby="report-heading" id="report-panel">
-    <h2 id="report-heading">Report</h2>
-    <p class="hint">Plain-text pre/post report for the current comparison. Review it before sharing; redaction is best effort.</p>
-    <div class="toolbar">
-      <button type="button" data-testid="download-report" id="download-report" disabled>Download report (.txt)</button>
-      <button type="button" data-testid="download-compare-json" id="download-compare-json" disabled>Download comparison (.json)</button>
-      <button type="button" data-testid="print-report" id="print-report" disabled>Print report</button>
-    </div>
-    <pre class="report" data-testid="report-preview" id="report-preview">Run a comparison to build the report.</pre>
-  </section>
+  <div class="lower-grid">
+    <section class="panel" aria-labelledby="report-heading" id="report-panel">
+      <h2 id="report-heading">Report</h2>
+      <p class="hint">Plain-text pre/post report for the current comparison. Review it before sharing; redaction is best effort. Any edit, import, or reset invalidates the report so a stale copy can never be exported.</p>
+      <div class="toolbar">
+        <button type="button" data-testid="download-report" id="download-report" disabled>Download report (.txt)</button>
+        <button type="button" data-testid="download-compare-json" id="download-compare-json" disabled>Download comparison (.json)</button>
+        <button type="button" data-testid="print-report" id="print-report" disabled>Print report</button>
+      </div>
+      <pre class="report" data-testid="report-preview" id="report-preview">Run a comparison to build the report.</pre>
+    </section>
 
-  <section class="panel" aria-labelledby="data-heading">
-    <h2 id="data-heading">Local data</h2>
-    <p class="hint">The versioned notebook lives in this browser's local storage. Backup export produces a JSON file you can re-import later; imports are validated and redacted before they replace anything.</p>
-    <div class="toolbar">
-      <button type="button" data-testid="export-backup" id="export-backup">Export backup (.json)</button>
-      <label class="button" for="import-backup-file">Import backup
-        <input data-testid="import-backup-file" id="import-backup-file" type="file" accept=".json,application/json" class="visually-hidden">
-      </label>
-      <button type="button" data-testid="load-sample" id="load-sample">Load fictional sample</button>
-      <button type="button" data-testid="reset-data" id="reset-data" class="danger">Reset local data</button>
-    </div>
-  </section>
+    <section class="panel" aria-labelledby="data-heading">
+      <h2 id="data-heading">Local data</h2>
+      <p class="hint">The versioned notebook lives in this browser's local storage. Backup export produces a JSON file you can re-import later; imports are validated and redacted before they replace anything.</p>
+      <div class="toolbar">
+        <button type="button" data-testid="export-backup" id="export-backup">Export backup (.json)</button>
+        <label class="button" for="import-backup-file">Import backup
+          <input data-testid="import-backup-file" id="import-backup-file" type="file" accept=".json,application/json" class="visually-hidden">
+        </label>
+        <button type="button" data-testid="load-sample" id="load-sample">Load fictional sample</button>
+        <button type="button" data-testid="reset-data" id="reset-data" class="danger">Reset local data</button>
+      </div>
+      <p class="hint">Loading the fictional sample asks for confirmation first and never silently overwrites your sessions. Limits: 5 MB total · 250 sessions · 500 faults per session.</p>
+    </section>
+  </div>
 
   <details class="explain">
     <summary>Privacy, supported formats, and known limits</summary>
